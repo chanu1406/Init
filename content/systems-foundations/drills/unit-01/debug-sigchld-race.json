@@ -1,0 +1,39 @@
+{
+  "slug": "debug-sigchld-race",
+  "unit_order_index": 1,
+  "drill_type": "debug",
+  "prompt_markdown": "This server uses SIGCHLD to clean up child processes, but occasionally zombie processes still appear. What's the bug?\n\n```c\nvoid sigchld_handler(int sig) {\n    int status;\n    waitpid(-1, &status, 0);\n}\n\nint main() {\n    signal(SIGCHLD, sigchld_handler);\n    \n    while (1) {\n        int client_fd = accept(server_fd, NULL, NULL);\n        \n        if (fork() == 0) {\n            handle_client(client_fd);\n            exit(0);\n        }\n        close(client_fd);\n    }\n}\n```",
+  "difficulty": 4,
+  "estimated_minutes": 5,
+  "concept_tags": ["signals", "waitpid", "race-condition", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "identification",
+        "description": "Identifies that multiple children can exit while handler runs once",
+        "max_score": 2
+      },
+      {
+        "name": "explanation",
+        "description": "Explains signals can be coalesced (only one SIGCHLD delivered)",
+        "max_score": 2
+      },
+      {
+        "name": "fix",
+        "description": "Shows loop with WNOHANG to reap all ready children",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "multiple children can exit before handler completes",
+      "signals don't queue - can miss SIGCHLD",
+      "must loop waitpid with WNOHANG",
+      "while (waitpid(-1, &status, WNOHANG) > 0);"
+    ],
+    "common_mistakes": [
+      "thinking each SIGCHLD is delivered separately",
+      "not understanding signal coalescing",
+      "using blocking wait in signal handler"
+    ]
+  }
+}

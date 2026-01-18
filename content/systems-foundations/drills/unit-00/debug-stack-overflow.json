@@ -1,0 +1,39 @@
+{
+  "slug": "debug-stack-overflow",
+  "unit_order_index": 0,
+  "drill_type": "debug",
+  "prompt_markdown": "This recursive function crashes with a segmentation fault on large inputs. The developer increased the input array size but the crash persists. What's the likely cause, and what region of the address space is being exhausted?\n\n```c\nvoid process_tree(Node *node) {\n    char buffer[65536];  // 64KB local buffer\n    \n    if (node == NULL) return;\n    \n    // Process current node into buffer\n    format_node(node, buffer);\n    print_buffer(buffer);\n    \n    // Recurse on children\n    for (int i = 0; i < node->child_count; i++) {\n        process_tree(node->children[i]);\n    }\n}\n```\n\nThe tree has depth of about 50 nodes.",
+  "difficulty": 3,
+  "estimated_minutes": 4,
+  "concept_tags": ["stack", "memory", "recursion", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "identification",
+        "description": "Identifies stack overflow as the cause",
+        "max_score": 2
+      },
+      {
+        "name": "reasoning",
+        "description": "Explains 64KB per frame × 50 depth = 3.2MB exceeds default stack size",
+        "max_score": 2
+      },
+      {
+        "name": "solution",
+        "description": "Suggests moving buffer to heap or reducing size",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "stack overflow due to large stack frames",
+      "each recursive call adds 64KB to the stack",
+      "default stack size is typically 1-8MB",
+      "fix: use heap allocation (malloc) or smaller buffers"
+    ],
+    "common_mistakes": [
+      "confusing with heap memory issues",
+      "not calculating total stack usage",
+      "suggesting only to increase stack size (not portable)"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "explain-process-vs-program",
+  "unit_order_index": 0,
+  "drill_type": "explain",
+  "prompt_markdown": "Explain the difference between a **program** and a **process**. What happens when you run an executable file?",
+  "difficulty": 1,
+  "estimated_minutes": 3,
+  "concept_tags": ["process", "program", "execution", "os-basics"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "distinction",
+        "description": "Clearly distinguishes program (static, on disk) from process (running instance)",
+        "max_score": 2
+      },
+      {
+        "name": "lifecycle",
+        "description": "Mentions process creation steps (loading, memory allocation, execution)",
+        "max_score": 2
+      },
+      {
+        "name": "clarity",
+        "description": "Uses correct terminology and clear language",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "program is static code stored on disk",
+      "process is a running instance of a program",
+      "multiple processes can run the same program",
+      "OS allocates resources (memory, PID) when creating a process"
+    ],
+    "common_mistakes": [
+      "using program and process interchangeably",
+      "not mentioning that processes have state",
+      "forgetting about resource allocation"
+    ]
+  }
+}

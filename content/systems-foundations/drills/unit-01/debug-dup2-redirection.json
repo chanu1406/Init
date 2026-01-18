@@ -1,0 +1,34 @@
+{
+  "slug": "debug-dup2-redirection",
+  "unit_order_index": 1,
+  "drill_type": "debug",
+  "prompt_markdown": "This code is supposed to redirect stdout to a file before exec, but the output still goes to the terminal. What's wrong?\n\n```c\n#include <stdio.h>\n#include <fcntl.h>\n#include <unistd.h>\n\nint main() {\n    pid_t pid = fork();\n    \n    if (pid == 0) {\n        int fd = open(\"output.txt\", O_WRONLY | O_CREAT, 0644);\n        dup2(1, fd);  // Redirect stdout to file\n        \n        char *argv[] = {\"/bin/echo\", \"Hello World\", NULL};\n        execve(\"/bin/echo\", argv, NULL);\n    }\n    \n    wait(NULL);\n    return 0;\n}\n```",
+  "difficulty": 3,
+  "estimated_minutes": 4,
+  "concept_tags": ["dup2", "file-descriptor", "redirection", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "identification",
+        "description": "Identifies that dup2 arguments are reversed",
+        "max_score": 3
+      },
+      {
+        "name": "explanation",
+        "description": "Explains dup2(oldfd, newfd) - old is source, new is target",
+        "max_score": 2
+      }
+    ],
+    "expected_key_points": [
+      "dup2(fd, 1) not dup2(1, fd)",
+      "first arg is source, second is destination",
+      "dup2(1, fd) copies stdout to fd (wrong direction)",
+      "dup2(fd, 1) makes stdout point to file (correct)"
+    ],
+    "common_mistakes": [
+      "confusing dup2 argument order",
+      "forgetting to close the original fd",
+      "not understanding file descriptor duplication"
+    ]
+  }
+}

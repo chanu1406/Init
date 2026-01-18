@@ -1,0 +1,39 @@
+{
+  "slug": "debug-pipe-deadlock",
+  "unit_order_index": 1,
+  "drill_type": "debug",
+  "prompt_markdown": "This program creates a pipe and tries to communicate between parent and child, but it hangs forever. Why?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\n#include <string.h>\n\nint main() {\n    int pipefd[2];\n    pipe(pipefd);\n    \n    if (fork() == 0) {\n        // Child reads\n        char buf[100];\n        int n = read(pipefd[0], buf, sizeof(buf));\n        buf[n] = '\\0';\n        printf(\"Child received: %s\\n\", buf);\n    } else {\n        // Parent writes\n        char *msg = \"Hello from parent\";\n        write(pipefd[1], msg, strlen(msg));\n        wait(NULL);\n    }\n    return 0;\n}\n```",
+  "difficulty": 3,
+  "estimated_minutes": 5,
+  "concept_tags": ["pipe", "file-descriptor", "deadlock", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "identification",
+        "description": "Identifies that unused pipe ends aren't closed",
+        "max_score": 2
+      },
+      {
+        "name": "explanation",
+        "description": "Explains read blocks because write end is still open in child",
+        "max_score": 2
+      },
+      {
+        "name": "fix",
+        "description": "Shows closing unused ends in each process",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "child has write end (pipefd[1]) still open",
+      "read() waits for EOF which requires all write ends closed",
+      "parent should close pipefd[0], child should close pipefd[1]",
+      "read() only returns 0 (EOF) when all writers are gone"
+    ],
+    "common_mistakes": [
+      "thinking it's a fork() issue",
+      "not understanding EOF on pipes",
+      "forgetting both parent and child have copies of FDs"
+    ]
+  }
+}

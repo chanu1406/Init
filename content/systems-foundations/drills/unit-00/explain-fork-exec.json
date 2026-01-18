@@ -1,0 +1,39 @@
+{
+  "slug": "explain-fork-exec",
+  "unit_order_index": 0,
+  "drill_type": "explain",
+  "prompt_markdown": "In Unix, `fork()` and `exec()` are used together to create new processes. Explain what each does and why they are separate system calls.",
+  "difficulty": 3,
+  "estimated_minutes": 5,
+  "concept_tags": ["fork", "exec", "process-creation", "unix"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "fork",
+        "description": "Correctly explains fork creates a copy of the calling process",
+        "max_score": 2
+      },
+      {
+        "name": "exec",
+        "description": "Correctly explains exec replaces the process image with a new program",
+        "max_score": 2
+      },
+      {
+        "name": "separation",
+        "description": "Explains benefit of separation (flexibility for redirection, pipes, etc.)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "fork creates child process as copy of parent",
+      "child gets different PID, fork returns 0 to child",
+      "exec loads new program into current process",
+      "separation allows setup between fork and exec"
+    ],
+    "common_mistakes": [
+      "thinking fork starts a new program",
+      "thinking exec creates a new process",
+      "not understanding the copy-on-write optimization"
+    ]
+  }
+}

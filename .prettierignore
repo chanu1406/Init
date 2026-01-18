@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build
+.expo
+dist
+web-build
+
+# Backend
+backend
+
+# OS
+.DS_Store

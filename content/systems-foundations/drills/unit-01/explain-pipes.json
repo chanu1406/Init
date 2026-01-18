@@ -1,0 +1,39 @@
+{
+  "slug": "explain-pipes",
+  "unit_order_index": 1,
+  "drill_type": "explain",
+  "prompt_markdown": "What is a **pipe** in Unix? How does the shell command `ls | grep foo` work at the file descriptor level?",
+  "difficulty": 3,
+  "estimated_minutes": 5,
+  "concept_tags": ["pipe", "ipc", "file-descriptor", "shell"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Correctly defines pipe as unidirectional byte stream between processes",
+        "max_score": 2
+      },
+      {
+        "name": "mechanism",
+        "description": "Explains pipe() creates two FDs (read end, write end)",
+        "max_score": 2
+      },
+      {
+        "name": "example",
+        "description": "Correctly traces how ls|grep works (stdout of ls → stdin of grep)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "pipe is a kernel buffer connecting two processes",
+      "pipe() returns two file descriptors",
+      "shell forks, sets up FD redirection, then execs",
+      "ls stdout connected to grep stdin"
+    ],
+    "common_mistakes": [
+      "thinking pipe is bidirectional",
+      "not understanding the fork/dup2/exec sequence",
+      "confusing pipes with named pipes (FIFOs)"
+    ]
+  }
+}

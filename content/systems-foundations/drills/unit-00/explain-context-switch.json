@@ -1,0 +1,39 @@
+{
+  "slug": "explain-context-switch",
+  "unit_order_index": 0,
+  "drill_type": "explain",
+  "prompt_markdown": "What is a **context switch**? What state must the OS save and restore, and why are context switches expensive?",
+  "difficulty": 3,
+  "estimated_minutes": 4,
+  "concept_tags": ["context-switch", "scheduling", "cpu", "performance"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Correctly defines context switch as switching CPU from one process to another",
+        "max_score": 2
+      },
+      {
+        "name": "state",
+        "description": "Lists key state that must be saved (registers, PC, stack pointer, page tables)",
+        "max_score": 2
+      },
+      {
+        "name": "cost",
+        "description": "Explains why it's expensive (cache invalidation, TLB flush, time overhead)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "OS saves current process state to PCB",
+      "registers, program counter, stack pointer saved",
+      "loads new process state from its PCB",
+      "TLB and cache effects cause performance overhead"
+    ],
+    "common_mistakes": [
+      "forgetting about cache/TLB effects",
+      "confusing context switch with mode switch",
+      "not mentioning the process control block"
+    ]
+  }
+}

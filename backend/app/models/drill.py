@@ -24,7 +24,7 @@ class RubricCriterion(BaseModel):
 
     name: str
     description: str
-    max_score: int = Field(ge=1, le=5)
+    max_score: int = Field(ge=1, le=10)
 
 
 class DrillRubric(BaseModel):
@@ -32,7 +32,9 @@ class DrillRubric(BaseModel):
 
     criteria: list[RubricCriterion]
     expected_key_points: list[str]
-    common_mistakes: list[str]
+    common_mistakes: list[str] = []
+    followup_questions: list[str] = []
+    model_answer_outline: list[str] = []
 
 
 class Drill(BaseModel):
@@ -43,11 +45,27 @@ class Drill(BaseModel):
 
     id: str
     unit_id: str
+    slug: str
     drill_type: DrillType
     prompt_markdown: str
     rubric: DrillRubric
     difficulty: int = Field(ge=1, le=5)
     estimated_minutes: int = Field(ge=1)
+    concept_tags: list[str] = []
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class DrillSummary(BaseModel):
+    """
+    Lightweight drill model for list views.
+    """
+
+    id: str
+    slug: str
+    drill_type: DrillType
+    difficulty: int
+    estimated_minutes: int
     concept_tags: list[str] = []
 
 
@@ -60,8 +78,11 @@ class UserDrillProgress(BaseModel):
     user_id: str
     drill_id: str
     mastery_score: int = Field(ge=0, le=5)
-    last_attempt_at: datetime
-    next_review_due_at: datetime
+    attempt_count: int = 0
+    last_attempt_at: datetime | None = None
+    next_review_due_at: datetime | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
 
 
 class DrillAttempt(BaseModel):
@@ -74,4 +95,6 @@ class DrillAttempt(BaseModel):
     drill_id: str
     user_response: str
     ai_feedback: dict[str, Any]
+    score: int | None = None
+    max_score: int | None = None
     created_at: datetime

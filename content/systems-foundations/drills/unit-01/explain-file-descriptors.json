@@ -1,0 +1,39 @@
+{
+  "slug": "explain-file-descriptors",
+  "unit_order_index": 1,
+  "drill_type": "explain",
+  "prompt_markdown": "What is a **file descriptor**? Explain what the numbers 0, 1, and 2 represent by convention, and why this abstraction is powerful.",
+  "difficulty": 2,
+  "estimated_minutes": 4,
+  "concept_tags": ["file-descriptor", "stdin", "stdout", "stderr", "io"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Correctly defines file descriptor as integer handle to an open resource",
+        "max_score": 2
+      },
+      {
+        "name": "standard-fds",
+        "description": "Correctly identifies 0=stdin, 1=stdout, 2=stderr",
+        "max_score": 2
+      },
+      {
+        "name": "abstraction",
+        "description": "Explains the power of the abstraction (uniform interface, redirection)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "file descriptor is an integer referencing an open file/resource",
+      "0 = standard input, 1 = standard output, 2 = standard error",
+      "files, sockets, pipes all use the same interface",
+      "enables I/O redirection and piping"
+    ],
+    "common_mistakes": [
+      "confusing file descriptor with file pointer (FILE*)",
+      "not knowing the standard FD numbers",
+      "thinking FDs only work with files on disk"
+    ]
+  }
+}

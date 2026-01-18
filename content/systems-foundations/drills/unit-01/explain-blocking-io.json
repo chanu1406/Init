@@ -1,0 +1,39 @@
+{
+  "slug": "explain-blocking-io",
+  "unit_order_index": 1,
+  "drill_type": "explain",
+  "prompt_markdown": "What does it mean for an I/O operation to be **blocking**? What happens to a process when it makes a blocking read() call on a socket with no data available?",
+  "difficulty": 3,
+  "estimated_minutes": 4,
+  "concept_tags": ["blocking", "io", "scheduling", "socket"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Correctly defines blocking I/O as waiting until operation completes",
+        "max_score": 2
+      },
+      {
+        "name": "process-state",
+        "description": "Explains process is put to sleep and removed from CPU",
+        "max_score": 2
+      },
+      {
+        "name": "wakeup",
+        "description": "Mentions how/when the process is woken up",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "blocking means the call doesn't return until data is available",
+      "process is moved to a waiting/sleeping state",
+      "CPU is free to run other processes",
+      "kernel wakes process when data arrives"
+    ],
+    "common_mistakes": [
+      "thinking blocking means CPU is busy-waiting",
+      "not understanding the process state transition",
+      "confusing with non-blocking or async I/O"
+    ]
+  }
+}

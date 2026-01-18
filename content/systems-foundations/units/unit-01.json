@@ -1,0 +1,6 @@
+{
+  "track_slug": "systems-foundations",
+  "order_index": 1,
+  "title": "System Calls and File Descriptors",
+  "summary_markdown": "Every interaction between your program and the outside world goes through the kernel via system calls. This unit covers how syscalls work, the file descriptor abstraction, and how processes communicate with hardware and each other."
+}

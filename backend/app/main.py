@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import auth, drills, health
+from app.routers import auth, drills, health, tracks, units
 
 # Create FastAPI application
 app = FastAPI(
@@ -35,10 +35,11 @@ app.add_middleware(
 # Register routers
 app.include_router(health.router, tags=["Health"])
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
+app.include_router(tracks.router, prefix="/tracks", tags=["Tracks"])
+app.include_router(units.router, prefix="/units", tags=["Units"])
 app.include_router(drills.router, prefix="/drills", tags=["Drills"])
 
 # TODO: Add progress router
-# TODO: Add tracks router
 
 
 @app.on_event("startup")

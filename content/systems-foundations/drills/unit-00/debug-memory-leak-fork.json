@@ -1,0 +1,39 @@
+{
+  "slug": "debug-memory-leak-fork",
+  "unit_order_index": 0,
+  "drill_type": "debug",
+  "prompt_markdown": "A developer claims this code has a memory leak because memory is allocated before fork() and never freed in the child. Is this a real memory leak? Explain why or why not.\n\n```c\n#include <stdio.h>\n#include <stdlib.h>\n#include <unistd.h>\n\nint main() {\n    char *buffer = malloc(1024);\n    \n    pid_t pid = fork();\n    if (pid == 0) {\n        // Child process - uses buffer but doesn't free it\n        sprintf(buffer, \"Hello from child %d\", getpid());\n        printf(\"%s\\n\", buffer);\n        exit(0);  // No free(buffer) here!\n    }\n    \n    // Parent\n    wait(NULL);\n    free(buffer);\n    return 0;\n}\n```",
+  "difficulty": 3,
+  "estimated_minutes": 4,
+  "concept_tags": ["memory", "fork", "address-space", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "answer",
+        "description": "Correctly states this is NOT a memory leak (or at most a minor/harmless one)",
+        "max_score": 2
+      },
+      {
+        "name": "reasoning",
+        "description": "Explains that when a process exits, all its memory is reclaimed by OS",
+        "max_score": 2
+      },
+      {
+        "name": "nuance",
+        "description": "Mentions copy-on-write or separate address spaces",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "when exit() is called, OS reclaims all process memory",
+      "not a leak because process terminates immediately",
+      "each process has its own address space after fork",
+      "good practice to free, but OS handles cleanup on exit"
+    ],
+    "common_mistakes": [
+      "thinking all malloc must have matching free",
+      "not knowing OS reclaims memory on process exit",
+      "confusing this with a long-running process leak"
+    ]
+  }
+}

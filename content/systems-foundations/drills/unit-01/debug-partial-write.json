@@ -1,0 +1,39 @@
+{
+  "slug": "debug-partial-write",
+  "unit_order_index": 1,
+  "drill_type": "debug",
+  "prompt_markdown": "A developer's file transfer code works for small files but corrupts large files. They write to a socket like this:\n\n```c\nint send_file(int socket_fd, char *data, size_t size) {\n    int bytes_written = write(socket_fd, data, size);\n    if (bytes_written < 0) {\n        return -1;  // Error\n    }\n    return 0;  // Success\n}\n```\n\nWhat's wrong with this approach, and how would you fix it?",
+  "difficulty": 3,
+  "estimated_minutes": 4,
+  "concept_tags": ["io", "socket", "partial-write", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "identification",
+        "description": "Identifies that write() may write fewer bytes than requested",
+        "max_score": 2
+      },
+      {
+        "name": "explanation",
+        "description": "Explains this is normal for sockets/pipes, not an error",
+        "max_score": 2
+      },
+      {
+        "name": "fix",
+        "description": "Shows loop that continues writing until all bytes sent",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "write() can return less than requested (partial write)",
+      "this is normal behavior, not an error",
+      "must loop and continue from where you left off",
+      "check bytes_written and adjust data pointer and size"
+    ],
+    "common_mistakes": [
+      "thinking partial writes only happen on errors",
+      "confusing with read() behavior",
+      "not handling EINTR"
+    ]
+  }
+}

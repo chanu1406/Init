@@ -1,0 +1,39 @@
+{
+  "slug": "explain-address-space",
+  "unit_order_index": 0,
+  "drill_type": "explain",
+  "prompt_markdown": "What is a **virtual address space**? Why does each process have its own, and what are the main regions it contains?",
+  "difficulty": 2,
+  "estimated_minutes": 4,
+  "concept_tags": ["memory", "virtual-memory", "address-space", "process"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Correctly defines virtual address space as process's view of memory",
+        "max_score": 2
+      },
+      {
+        "name": "isolation",
+        "description": "Explains why each process has its own (isolation, security)",
+        "max_score": 2
+      },
+      {
+        "name": "regions",
+        "description": "Names key regions (stack, heap, text/code, data)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "virtual addresses are translated to physical by MMU",
+      "each process sees its own private address space",
+      "prevents one process from accessing another's memory",
+      "regions: stack, heap, code/text, data, BSS"
+    ],
+    "common_mistakes": [
+      "confusing virtual and physical memory",
+      "not mentioning memory protection",
+      "forgetting the heap or stack"
+    ]
+  }
+}

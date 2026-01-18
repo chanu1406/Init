@@ -1,0 +1,40 @@
+{
+  "slug": "explain-syscall-mechanism",
+  "unit_order_index": 1,
+  "drill_type": "explain",
+  "prompt_markdown": "What is a **system call**? Describe the mechanism by which a user-space program invokes kernel functionality.",
+  "difficulty": 2,
+  "estimated_minutes": 4,
+  "concept_tags": ["syscall", "kernel", "trap", "os-interface"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Defines syscall as the interface between user programs and kernel",
+        "max_score": 2
+      },
+      {
+        "name": "mechanism",
+        "description": "Describes the trap/interrupt mechanism that switches to kernel mode",
+        "max_score": 2
+      },
+      {
+        "name": "examples",
+        "description": "Gives examples of common syscalls",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "syscall is a request to the kernel",
+      "triggers a software interrupt or trap instruction",
+      "CPU switches to kernel mode",
+      "kernel validates and executes the request",
+      "examples: read, write, open, fork, exec"
+    ],
+    "common_mistakes": [
+      "confusing syscalls with library functions like printf",
+      "not mentioning the mode switch",
+      "thinking syscalls are regular function calls"
+    ]
+  }
+}

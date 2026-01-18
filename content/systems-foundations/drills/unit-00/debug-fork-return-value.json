@@ -1,0 +1,33 @@
+{
+  "slug": "debug-fork-return-value",
+  "unit_order_index": 0,
+  "drill_type": "debug",
+  "prompt_markdown": "A junior developer wrote this code but it's not working as expected. They want to print \"child\" in the child process and \"parent\" in the parent, but both are printing \"parent\". What's wrong?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    int pid = fork();\n    \n    if (pid = 0) {\n        printf(\"child\\n\");\n    } else {\n        printf(\"parent\\n\");\n    }\n    return 0;\n}\n```\n\nIdentify the bug and explain why it causes this behavior.",
+  "difficulty": 2,
+  "estimated_minutes": 3,
+  "concept_tags": ["fork", "debugging", "c-programming", "process"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "bug-identification",
+        "description": "Correctly identifies assignment (=) instead of comparison (==)",
+        "max_score": 3
+      },
+      {
+        "name": "explanation",
+        "description": "Explains that assignment returns 0, which is falsy, so else branch always executes",
+        "max_score": 2
+      }
+    ],
+    "expected_key_points": [
+      "bug is = instead of == in the if condition",
+      "pid = 0 assigns 0 to pid and returns 0",
+      "0 is falsy so else branch executes",
+      "should be if (pid == 0)"
+    ],
+    "common_mistakes": [
+      "not recognizing the assignment vs comparison error",
+      "focusing on fork() behavior instead of the C syntax error"
+    ]
+  }
+}

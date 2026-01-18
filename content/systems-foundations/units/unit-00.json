@@ -1,0 +1,6 @@
+{
+  "track_slug": "systems-foundations",
+  "order_index": 0,
+  "title": "Processes and Memory",
+  "summary_markdown": "Understanding how operating systems manage processes and memory is fundamental to writing efficient, correct software. This unit covers process lifecycle, address spaces, memory isolation, and the kernel/user mode boundary."
+}

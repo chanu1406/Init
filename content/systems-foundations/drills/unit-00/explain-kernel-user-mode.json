@@ -1,0 +1,39 @@
+{
+  "slug": "explain-kernel-user-mode",
+  "unit_order_index": 0,
+  "drill_type": "explain",
+  "prompt_markdown": "Explain the difference between **kernel mode** and **user mode**. Why does the CPU have these two modes, and how does a process switch between them?",
+  "difficulty": 2,
+  "estimated_minutes": 4,
+  "concept_tags": ["kernel", "user-mode", "protection", "syscall"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "modes",
+        "description": "Correctly explains both modes and their privilege levels",
+        "max_score": 2
+      },
+      {
+        "name": "purpose",
+        "description": "Explains why separation exists (protection, stability, security)",
+        "max_score": 2
+      },
+      {
+        "name": "transition",
+        "description": "Describes how transitions occur (syscalls, interrupts, exceptions)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "kernel mode has full hardware access",
+      "user mode has restricted access",
+      "prevents buggy programs from crashing the system",
+      "syscalls trigger controlled transition to kernel mode"
+    ],
+    "common_mistakes": [
+      "thinking user mode can access hardware directly",
+      "not mentioning how the transition is controlled",
+      "confusing with process privilege (root vs user)"
+    ]
+  }
+}

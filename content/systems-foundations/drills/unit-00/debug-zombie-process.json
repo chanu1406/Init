@@ -1,0 +1,39 @@
+{
+  "slug": "debug-zombie-process",
+  "unit_order_index": 0,
+  "drill_type": "debug",
+  "prompt_markdown": "A user reports that after running this program for a while, `ps aux` shows many processes in state `Z` (zombie). What's causing the zombies and how would you fix it?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\n#include <stdlib.h>\n\nint main() {\n    while (1) {\n        pid_t pid = fork();\n        if (pid == 0) {\n            // Child does some quick work\n            printf(\"Child %d working...\\n\", getpid());\n            exit(0);\n        }\n        // Parent continues immediately\n        sleep(1);\n    }\n    return 0;\n}\n```",
+  "difficulty": 3,
+  "estimated_minutes": 5,
+  "concept_tags": ["zombie", "process", "wait", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "problem-identification",
+        "description": "Identifies that parent never calls wait() to reap child processes",
+        "max_score": 2
+      },
+      {
+        "name": "zombie-explanation",
+        "description": "Explains that zombies are terminated children whose exit status hasn't been collected",
+        "max_score": 2
+      },
+      {
+        "name": "solution",
+        "description": "Proposes valid fix (wait, waitpid, SIGCHLD handler)",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "parent never calls wait() or waitpid()",
+      "child exits but parent doesn't collect exit status",
+      "zombie processes accumulate",
+      "fix: call waitpid(WNOHANG) or handle SIGCHLD"
+    ],
+    "common_mistakes": [
+      "thinking zombies use significant resources",
+      "not knowing about wait() system call",
+      "confusing zombie with orphan process"
+    ]
+  }
+}

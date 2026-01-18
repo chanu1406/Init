@@ -1,0 +1,39 @@
+{
+  "slug": "explain-signals",
+  "unit_order_index": 1,
+  "drill_type": "explain",
+  "prompt_markdown": "What are **signals** in Unix? Give examples of common signals and explain what happens when a process receives SIGKILL vs SIGTERM.",
+  "difficulty": 2,
+  "estimated_minutes": 4,
+  "concept_tags": ["signals", "ipc", "process-control", "unix"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "definition",
+        "description": "Correctly defines signals as async notifications to processes",
+        "max_score": 2
+      },
+      {
+        "name": "examples",
+        "description": "Lists common signals (SIGINT, SIGTERM, SIGKILL, SIGSEGV)",
+        "max_score": 2
+      },
+      {
+        "name": "difference",
+        "description": "Explains SIGTERM can be caught/handled, SIGKILL cannot",
+        "max_score": 1
+      }
+    ],
+    "expected_key_points": [
+      "signals are software interrupts to processes",
+      "SIGINT (Ctrl+C), SIGTERM (terminate), SIGKILL (force kill)",
+      "SIGTERM can be caught and handled gracefully",
+      "SIGKILL cannot be caught, ignored, or blocked"
+    ],
+    "common_mistakes": [
+      "thinking all signals can be caught",
+      "confusing SIGTERM and SIGKILL",
+      "not mentioning signal handlers"
+    ]
+  }
+}

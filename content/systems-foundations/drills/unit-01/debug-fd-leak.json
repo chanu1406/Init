@@ -1,0 +1,34 @@
+{
+  "slug": "debug-fd-leak",
+  "unit_order_index": 1,
+  "drill_type": "debug",
+  "prompt_markdown": "This server loop handles connections but after running for a few hours, it starts failing with \"Too many open files\". What's the bug?\n\n```c\nvoid handle_connection(int client_fd) {\n    char buffer[1024];\n    read(client_fd, buffer, sizeof(buffer));\n    write(client_fd, \"OK\\n\", 3);\n    // Process request...\n}\n\nint main() {\n    int server_fd = create_server_socket(8080);\n    \n    while (1) {\n        int client_fd = accept(server_fd, NULL, NULL);\n        if (client_fd < 0) {\n            perror(\"accept failed\");\n            continue;\n        }\n        handle_connection(client_fd);\n    }\n}\n```",
+  "difficulty": 2,
+  "estimated_minutes": 3,
+  "concept_tags": ["file-descriptor", "socket", "resource-leak", "debugging"],
+  "rubric": {
+    "criteria": [
+      {
+        "name": "identification",
+        "description": "Identifies that client_fd is never closed",
+        "max_score": 3
+      },
+      {
+        "name": "consequence",
+        "description": "Explains FD exhaustion leads to \"Too many open files\"",
+        "max_score": 2
+      }
+    ],
+    "expected_key_points": [
+      "close(client_fd) is never called",
+      "each connection leaks a file descriptor",
+      "process has limited FD table (often 1024)",
+      "fix: call close(client_fd) after handling"
+    ],
+    "common_mistakes": [
+      "looking for memory leaks instead",
+      "thinking accept() automatically cleans up",
+      "not understanding FD limits"
+    ]
+  }
+}
