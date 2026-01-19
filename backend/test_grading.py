@@ -6,12 +6,16 @@ Tests the drill attempt submission without relying on OpenAI quota.
 
 import asyncio
 import json
+import os
 from datetime import datetime, timezone
 from supabase import create_client
+from dotenv import load_dotenv
 
-# Hardcoded for testing
-SUPABASE_URL = "https://bvfphrvjwtedyfknjyem.supabase.co"
-SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2ZnBocnZqd3RlZHlma25qeWVtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODY5NzIzNywiZXhwIjoyMDg0MjczMjM3fQ.q6F90_SNzw5cmP13IzUnrnTnOZSC8vjykpcFHGWQ3h4"
+# Load environment variables
+load_dotenv()
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
 
 
 async def test_grading_flow():

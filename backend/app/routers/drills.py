@@ -12,6 +12,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from supabase import Client
 
 from app.core.supabase import get_supabase_client
+from app.core.auth import CurrentUserId
 from app.models.drill import DrillAttemptRequest, DrillAttemptResponse
 from app.services.grading import GradingService
 from app.services.openai_client import OpenAIClient
@@ -23,6 +24,7 @@ router = APIRouter()
 async def submit_drill_attempt(
     drill_id: str,
     request: DrillAttemptRequest,
+    user_id: CurrentUserId,
     db: Client = Depends(get_supabase_client),
 ):
     """
@@ -30,13 +32,13 @@ async def submit_drill_attempt(
 
     Flow:
     1. Fetch drill with rubric
-    2. Grade response via OpenAI
+    2. Grade response via AI
     3. Store attempt in drill_attempts
     4. Update or create user_drill_progress
     5. Return feedback and new mastery score
+    
+    Requires: Valid JWT token in Authorization header
     """
-    # TODO: Get user_id from auth (for now using a placeholder)
-    user_id = "00000000-0000-0000-0000-000000000000"
 
     # Fetch the drill
     drill_response = db.table("drills").select("*").eq("id", drill_id).execute()
