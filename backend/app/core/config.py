@@ -28,9 +28,9 @@ class Settings(BaseSettings):
     supabase_service_key: str
     supabase_anon_key: str
 
-    # OpenAI
-    openai_api_key: str
-    openai_model: str = "gpt-4o"
+    # AI API
+    gemini_api_key: str
+    ai_model: str = "gemini-2.0-flash"
 
     @property
     def is_production(self) -> bool:

@@ -98,3 +98,32 @@ class DrillAttempt(BaseModel):
     score: int | None = None
     max_score: int | None = None
     created_at: datetime
+
+
+# ============================================================================
+# API Request/Response Models
+# ============================================================================
+
+
+class DrillAttemptRequest(BaseModel):
+    """Request model for submitting a drill attempt."""
+
+    user_response: str = Field(
+        min_length=10,
+        description="The user's submitted answer to the drill"
+    )
+
+
+class DrillAttemptResponse(BaseModel):
+    """Response model for drill attempt submission."""
+
+    attempt_id: str
+    drill_id: str
+    total_score: int
+    max_score: int
+    feedback: str
+    strengths: list[str]
+    improvements: list[str]
+    follow_up_question: str | None = None
+    mastery_score: int = Field(ge=0, le=5, description="Updated mastery level")
+    created_at: datetime
