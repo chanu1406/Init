@@ -16,8 +16,41 @@ from app.core.auth import CurrentUserId
 from app.models.drill import DrillAttemptRequest, DrillAttemptResponse
 from app.services.grading import GradingService
 from app.services.openai_client import OpenAIClient
+from app.services.scheduler import calculate_next_review, get_daily_drills
 
 router = APIRouter()
+
+
+@router.get("/today")
+async def get_todays_drills(
+    user_id: CurrentUserId,
+    db: Client = Depends(get_supabase_client),
+    limit: int = 3,
+):
+    """
+    Get today's personalized drill queue based on spaced repetition.
+    
+    Returns a mix of:
+    - Overdue reviews (highest priority)
+    - Low mastery drills (need practice)
+    - New drills (gradual introduction)
+    
+    Args:
+        user_id: Authenticated user's ID (from JWT)
+        limit: Maximum number of drills to return (default 3)
+    
+    Returns:
+        List of drills with metadata (reason, mastery, last_attempt)
+    """
+    drills = get_daily_drills(user_id, db, limit=limit)
+    
+    # Format response for frontend
+    return {
+        "drills": drills,
+        "total_available": len(drills),
+        "limit": limit,
+        "user_id": user_id,
+    }
 
 
 @router.post("/{drill_id}/attempts", response_model=DrillAttemptResponse)
@@ -98,13 +131,14 @@ async def submit_drill_attempt(
 
     # Update or create progress
     now = datetime.now(timezone.utc)
+    next_review = calculate_next_review(new_mastery, now)
+    
     progress_data = {
         "user_id": user_id,
         "drill_id": drill_id,
         "mastery_score": new_mastery,
         "last_attempt_at": now.isoformat(),
-        # TODO: Calculate next_review_due_at based on spaced repetition
-        "next_review_due_at": now.isoformat(),
+        "next_review_due_at": next_review.isoformat(),
     }
 
     if progress_response.data:
